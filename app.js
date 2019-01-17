@@ -1,4 +1,5 @@
 var config = require('./config.dev');
+var mongoose = require('mongoose');
 
 var createError = require('http-errors');
 var express = require('express');
@@ -23,6 +24,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
+//Connect to MongoDB
+mongoose.connect(config.mongodb, { useNewUrlParser: true });
+console.log(mongoose);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
