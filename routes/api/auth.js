@@ -51,15 +51,23 @@ router.post('/login', function(req, res, next) {
 
       if (err) {
         return res.json({success:false, error: err });
+      }else{
+        return res.json({success:true, user: user });
       }
-
-      //we will use a console.log() to test the session data
-      console.log(req.session);
-
-      return res.json({success:true, user: user });
 
     });
   })(req, res, next);
+});
+
+router.get('/logout', function(req, res){
+
+  req.logout();
+  if(req.session.passport){
+    return res.json({success:false});
+  }else{
+    return res.json({success:true});
+  }
+
 });
 
 module.exports = router;
