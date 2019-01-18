@@ -29,6 +29,41 @@ router.get('/:userId', function(req,res){
 
  });
 
+//~line 32 before routes
+app.use(require('express-session')({
+  //Define the session store
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection
+  }),
+  //Set the secret
+  secret: config.session.secret,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    path: '/',
+    domain: config.cookie.domain,
+    //httpOnly: true,
+    //secure: true,
+    maxAge:3600000 //1 hour
+  }
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser(function(user, done){
+  done(null,{
+    id: user._id,
+    username: user.username,
+    email: user.email,
+    first_name: user.first_name,
+    last_name: user.last_name
+  });
+});
+
+passport.deserializeUser(function(user, done){
+  done(null, user);
+});
+
  router.post('/', function(req, res) {
 
   Users.create(new Users({
