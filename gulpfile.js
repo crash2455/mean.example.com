@@ -47,7 +47,6 @@ gulp.task('build-main-js', function() {
   return merge(authApp);
 });
 
-//~line 49
 gulp.task('build-users-js', function() {
 
   var userApp = gulp.src([
@@ -62,14 +61,14 @@ gulp.task('build-users-js', function() {
 
 gulp.task('build-auth-js', function() {
 
-  var authApp = gulp.src([
+  var mainApp = gulp.src([
     'src/js/auth.app.js',
   ])
   .pipe(concat('auth.app.min.js'))
   .pipe(uglify())
   .pipe(gulp.dest('public/dist/js'));
 
-  return merge(authApp);
+  return merge(mainApp);
 });
 
 //Recompile SCSS/JS on save

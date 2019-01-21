@@ -15,15 +15,17 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
       span.navbar-toggler-icon
     #navbarSupportedContent.collapse.navbar-collapse
       ul.navbar-nav.ml-auto
-        li.nav-item.active
+        li.nav-item
           a.nav-link(href='/')
             | Home
-            span.sr-only (current)
+            //span.sr-only (current)
         if showLogin
           li.nav-item
             a.nav-link(href='/auth#register') Register
           li.nav-item
             a.nav-link(href='/auth#login') Login
         else
+          li.nav-item
+            a.nav-link(href='/users/app') Users
           li.nav-item
             a.nav-link(href='/auth/logout') Logout

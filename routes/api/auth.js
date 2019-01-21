@@ -1,8 +1,9 @@
-//Register a new user
 var express = require('express');
 var router = express.Router();
-var Users = require('../../models/users');
 var passport = require('passport');
+
+var Users = require('../../models/users');
+
 
 router.post('/register', function(req,res,next){
   var data = req.body;
@@ -12,25 +13,12 @@ router.post('/register', function(req,res,next){
     email: data.email,
     first_name: data.first_name,
     last_name: data.last_name
-  }),
-  data.password,
-  function(err, user){
-
+  }), data.password, function(err, user){
     if(err){
-
-      return res.json({
-        success: false,
-        user: req.body,
-        errors: err
-      });
-
+      return res.json({success: false,user: req.body,errors: err});
+    }else{
+      return res.json({success: true,user: user});
     }
-
-    return res.json({
-      success: true,
-      user: user
-    });
-
   });
 
 });
@@ -49,16 +37,12 @@ router.post('/login', function(req, res, next) {
 
     req.logIn(user, function(err) {
 
-      if(data.success===true){
-        window.location.href = '/';
-      }else{
-        document.getElementById('formMsg').style.display='block';
-      }
       if (err) {
         return res.json({success:false, error: err });
       }else{
         return res.json({success:true, user: user });
       }
+
     });
   })(req, res, next);
 });
@@ -67,8 +51,9 @@ router.delete('/logout', function(req, res){
   req.logout();
   if(!req.session.passport.user){
     return res.json({success: 'true'});
+  }else{
+    return res.json({success: 'false'});
   }
-  return res.json({success: 'false'});
 });
 
 module.exports = router;
