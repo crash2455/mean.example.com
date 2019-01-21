@@ -1,6 +1,6 @@
-var usersApp = (function() {
+var usersApp = (function () {
 
-  function viewUsers(){
+  function viewUsers() {
 
     let uri = `${window.location.origin}/api/users`;
     let xhr = new XMLHttpRequest();
@@ -13,7 +13,7 @@ var usersApp = (function() {
 
     xhr.send();
 
-    xhr.onload = function(){
+    xhr.onload = function () {
       let app = document.getElementById('app');
       let data = JSON.parse(xhr.response);
       let users = data.users;
@@ -22,7 +22,7 @@ var usersApp = (function() {
 
       //Loop each user record into it's own HTML table row, each user should
       //have a link a user view
-      for (let i=0; i<users.length; i++) {
+      for (let i = 0; i < users.length; i++) {
         rows = rows + `<tr>
           <td>
             <a href="#view-${users[i]['_id']}">${users[i]['last_name']}, ${users[i]['first_name']}</a>
@@ -61,10 +61,10 @@ var usersApp = (function() {
   }
 
   //~line 63
-function createUser(){
-  var app = document.getElementById('app');
+  function createUser() {
+    var app = document.getElementById('app');
 
-  var form =  `
+    var form = `
       <div class="card">
         <div class="card-header clearfix">
           <h2 class="h3 float-left">Create a New User</h2>
@@ -73,7 +73,7 @@ function createUser(){
           </div>
         </div>
         <div class="card-body">
-          <form id="registrationForm" class="card-body">
+          <form id="createUser" class="card-body">
             <div id="formMsg" class="alert alert-danger text-center">Your form has errors</div>
 
             <div class="row">
@@ -108,35 +108,69 @@ function createUser(){
       </div>
   `;
 
-  app.innerHTML=form;
+    app.innerHTML = form;
+  }
+
+  //~line 113
+  function postRequest(formId, url) {
+    let form = document.getElementById(formId);
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      let formData = new FormData(form);
+      let uri = `${window.location.origin}${url}`;
+      let xhr = new XMLHttpRequest();
+      xhr.open('POST', uri);
+
+      xhr.setRequestHeader(
+        'Content-Type',
+        'application/json; charset=UTF-8'
+      );
+
+      let object = {};
+      formData.forEach(function (value, key) {
+        object[key] = value;
+      });
+
+      xhr.send(JSON.stringify(object));
+      xhr.onload = function () {
+        let data = JSON.parse(xhr.response);
+        if (data.success === true) {
+          window.location.href = '/';
+        } else {
+          document.getElementById('formMsg').style.display = 'block';
+        }
+      }
+    });
   }
 
   return {
     //~line
-    load: function(){
-    let hash = window.location.hash;
-    let hashArray = hash.split('-');
+    load: function () {
+      let hash = window.location.hash;
+      let hashArray = hash.split('-');
 
-    switch(hashArray[0]){
-      case '#create':
-        createUser();
-        break;
+      switch (hashArray[0]) {
+        case '#create':
+          createUser();
+          postRequest('createUser', '/api/users');
+          break;
 
-      case '#view':
-        console.log('VIEW');
-        break;
+        case '#view':
+          console.log('VIEW');
+          break;
 
-      case '#edit':
-        console.log('EDIT');
-        break;
+        case '#edit':
+          console.log('EDIT');
+          break;
 
-      case '#delete':
-        console.log('DELETE');
-        break;
+        case '#delete':
+          console.log('DELETE');
+          break;
 
-      default:
-        viewUsers();
-        break;
+        default:
+          viewUsers();
+          break;
       }
     }
   }
@@ -144,3 +178,7 @@ function createUser(){
 })();
 
 usersApp.load();
+
+window.addEventListener("hashchange", function () {
+  usersApp.load();
+})
