@@ -49,25 +49,26 @@ router.post('/login', function(req, res, next) {
 
     req.logIn(user, function(err) {
 
+      if(data.success===true){
+        window.location.href = '/';
+      }else{
+        document.getElementById('formMsg').style.display='block';
+      }
       if (err) {
         return res.json({success:false, error: err });
       }else{
         return res.json({success:true, user: user });
       }
-
     });
   })(req, res, next);
 });
 
-router.get('/logout', function(req, res){
-
+router.delete('/logout', function(req, res){
   req.logout();
-  if(req.session.passport){
-    return res.json({success:false});
-  }else{
-    return res.json({success:true});
+  if(!req.session.passport.user){
+    return res.json({success: 'true'});
   }
-
+  return res.json({success: 'false'});
 });
 
 module.exports = router;
