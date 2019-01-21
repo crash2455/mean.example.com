@@ -1,9 +1,8 @@
-// Header/Navigation
 nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
   .container
     a.navbar-brand(href='#')
       // Use Font Awesome for a generic logo
-      i.fas.fa-asterisk
+      i.fas.fa-poo
       |&nbsp;MY API
     button.navbar-toggler(
       type='button'
@@ -20,9 +19,11 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
           a.nav-link(href='/')
             | Home
             span.sr-only (current)
-        li.nav-item
-          a.nav-link(href='/auth#register') Register
-        li.nav-item
-          a.nav-link(href='/auth#login') Login
-        li.nav-item
-          a.nav-link(href='/auth/logout') Logout
+        if showLogin
+          li.nav-item
+            a.nav-link(href='/auth#register') Register
+          li.nav-item
+            a.nav-link(href='/auth#login') Login
+        else
+          li.nav-item
+            a.nav-link(href='/auth/logout') Logout
