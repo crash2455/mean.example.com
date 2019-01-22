@@ -20,7 +20,7 @@ router.get('/', function(req, res, next) {
 router.get('/:articleId', function(req,res){
 
   var articleId = req.params.articleId;
-  Users.findOne({'_id':articleId}, function(err, article){
+  Articles.findOne({'_id':articleId}, function(err, article){
     if(err){
       return res.json({'success':false, 'error': err});
     }
@@ -52,10 +52,13 @@ router.get('/:articleId', function(req,res){
 router.put('/', function(req, res){
 
   Articles.findOne({'_id': req.body._id}, function(err, article){
-
-   if(err) {
+    if(err) {
+      console.log(err);
      return res.json({success: false, error: err});
    }
+
+  console.log(err);
+  console.log(article);
 
    if(article) {
 
@@ -66,7 +69,7 @@ router.put('/', function(req, res){
     }
 
     if(data.slug){
-      article.sliug = data.slug;
+      article.slug = data.slug;
     }
 
     if(data.body){
@@ -99,7 +102,7 @@ router.delete('/:articleId', function(req,res){
 
   var articleId = req.params.articleId;
 
-  Users.remove({'_id':articleId}, function(err,removed){
+  Articles.remove({'_id':articleId}, function(err,removed){
 
     if(err){
       return res.json({success: false, error: err});
