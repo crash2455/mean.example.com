@@ -2,7 +2,7 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
   .container
     a.navbar-brand(href='#')
       // Use Font Awesome for a generic logo
-      i.fas.fa-poo
+      i.fas.fa-home
       |&nbsp;MY API
     button.navbar-toggler(
       type='button'
@@ -27,5 +27,7 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
         else
           li.nav-item
             a.nav-link(href='/users/app') Users
+          li.nav-item
+            a.nav-link(href='/articles/app') Blog
           li.nav-item
             a.nav-link(href='/auth/logout') Logout
