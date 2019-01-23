@@ -37,6 +37,7 @@ router.get('/:articleId', function(req,res){
     body: req.body.body,
     keywords: req.body.keywords,
     description: req.body.description,
+    published: req.body.published
   }), function(err, article){
 
     if(err){
@@ -82,6 +83,10 @@ router.put('/', function(req, res){
 
     if(data.description){
       article.description = data.description;
+    }
+
+    if(data.published){
+      article.published = data.published;
     }
 
     article.save(function(err){
