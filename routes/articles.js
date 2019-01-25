@@ -7,7 +7,6 @@ router.get('/app', function(req, res, next) {
   res.render('articles/app', { title: 'Blog Management' });
 });
 
-console.log(today);
 router.get('/', function(req, res, next) {
 
   Articles.find({published:{"$lte":today}},function(err, articles){

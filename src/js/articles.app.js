@@ -177,7 +177,8 @@ var articlesApp = (function () {
     xhr.onload = function () {
       let app = document.getElementById('app');
       let data = JSON.parse(xhr.response);
-
+      var date = Date(data.article.published);
+      console.log(date);
       var form = `
         <div class="card">
           <div class="card-header clearfix">
@@ -197,7 +198,7 @@ var articlesApp = (function () {
                 </div>
                 <div class="form-group col-md-6">
                   <label for="published">Publish On</label>
-                  <input type="datetime-local" id="published" name="published" class="form-control" value="${data.article.published}" required>
+                  <input type="datetime-local" id="published" name="published" class="form-control" value="${date}" required>
                 </div>
               </div>
 

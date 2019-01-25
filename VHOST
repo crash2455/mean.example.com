@@ -1,0 +1,20 @@
+<VirtualHost 127.0.0.102:80>
+
+	ServerName loc.mean.example.com
+	ServerAdmin webmaster@localhost
+
+  	<Proxy *>
+		Order deny,allow
+		Allow from all
+	</Proxy>
+
+	ProxyRequests Off
+	ProxyPreserveHost On
+
+	ProxyPass / http://localhost:3000/
+	ProxyPassReverse / http://localhost:3000/
+
+	ErrorLog ${APACHE_LOG_DIR}/error.log
+	CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+</VirtualHost>
