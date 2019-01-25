@@ -21,7 +21,11 @@ var articlesRouter = require('./routes/articles');
 
 var app = express();
 
-var config = require('./config.dev');
+if(process.env.NODE_ENV==='production'){
+  var config = require('../config.prod');
+}else{
+  var config = require('./config.dev');
+}
 
 mongoose.connect(config.mongodb, { useNewUrlParser: true });
 
